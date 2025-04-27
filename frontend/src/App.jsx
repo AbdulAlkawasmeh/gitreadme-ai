@@ -9,19 +9,25 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.post('http://127.0.0.1:8000/generate-readme/', repoUrl, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      setReadme(response.data.readme);
-    } catch (error) {
-      console.error(error);
-      alert('Something went wrong 😢');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    const response = await axios.post(
+      'http://localhost:8000/generate-readme/',
+      JSON.stringify({ github_url: repoUrl }),
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    setReadme(response.data.readme);
+  } catch (error) {
+    console.error("❌ Error calling backend:", error);
+    alert('Something went wrong 😢');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleCopy = () => {
     navigator.clipboard.writeText(readme).then(() => {
