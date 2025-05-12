@@ -1,0 +1,73 @@
+/* HomePage.css */
+
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, black, #e5e7eb);
+    padding: 6rem;
+  }
+  /* Homepage.css */
+
+
+/* Make cards stack vertically on small screens */
+.homepage-cards {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .homepage-card {
+    flex: 1 1 300px;
+    max-width: 400px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ensure input fields & buttons are full width on small screens */
+  .homepage-card input,
+  .homepage-card button {
+    width: 100%;
+  }
+  
+  /* Responsive padding for container */
+  .homepage-container {
+    padding: 1rem;
+  }
+  
+  /* Make typing text big but still shrink nicely */
+  .homepage-typing-text {
+    font-size: 2rem;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 2rem;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  
+  /* Result readme area */
+  .homepage-readme {
+    max-width: 90%;
+    margin-top: 2rem;
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+  
+  /* On very small devices shrink headings slightly */
+  @media (max-width: 480px) {
+    .homepage-typing-text {
+      font-size: 1.5rem;
+    }
+  
+    .homepage-card {
+      padding: 1rem;
+    }
+  }
+  

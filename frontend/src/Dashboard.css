@@ -1,0 +1,82 @@
+/* Reuse homepage container */
+.homepage-container {
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Repos grid (2xN) */
+  .repo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);   /* 👈 forces 3 per row */
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Repo card */
+  .repo-card {
+    background-color: #f9f9f9;
+    border: 2px solid white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  /* Generated readmes grid (2xN) */
+  .readme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Readme card */
+  .readme-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  
+  /* Popup modal styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  .preview-content {
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  

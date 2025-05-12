@@ -14,3 +14,7 @@ def clone_and_summarize_repo(repo_url: str) -> str:
                         content = f.read()
                         summary += f"\n\nFile: {file}\n{content[:500]}"
         return summary[:4000]  
+
+
+
+

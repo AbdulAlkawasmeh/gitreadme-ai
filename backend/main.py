@@ -1,29 +1,72 @@
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import httpx
 from github_parser import clone_and_summarize_repo
-from llm_generator import generate_readme
+from readme_generator import generate_readme
+
+CLIENT_ID = "Ov23liAyw4i725ca1dts"
+CLIENT_SECRET = "a9e6e65a747ed8008783ecb9063479b731a50136"
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-from pydantic import BaseModel
+class CodeRequest(BaseModel):
+    code: str
 
-class RepoRequest(BaseModel):
+ 
+class GenerateReadmeRequest(BaseModel):
     github_url: str
 
+github_access_token = None
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+@app.post("/github/callback")
+async def github_callback(data: CodeRequest):
+    print(f"Received code: {data.code}")
+    global github_access_token
+    async with httpx.AsyncClient() as client:
+        token_response = await client.post(
+            "https://github.com/login/oauth/access_token",
+            headers={"Accept": "application/json"},
+            data={
+                "client_id": CLIENT_ID,
+                "client_secret": CLIENT_SECRET,
+                "code": data.code,
+            },
+        )
+        github_access_token = token_response.json()["access_token"]
+    return {"message": "GitHub token stored"}
+
+
+@app.get("/github/repos")
+async def get_github_repos():
+    if not github_access_token:
+        raise HTTPException(status_code=401, detail="GitHub not connected")
+
+    async with httpx.AsyncClient() as client:
+        repos_response = await client.get(
+            "https://api.github.com/user/repos",
+            headers={"Authorization": f"Bearer {github_access_token}"}
+        )
+        return {"repos": repos_response.json()}
+
 @app.post("/generate-readme/")
-async def generate_readme_api(request: RepoRequest):
+async def generate_readme_endpoint(request: GenerateReadmeRequest):
     try:
-        repo_url = request.github_url
+        repo_url = request.github_url   
         summary = clone_and_summarize_repo(repo_url)
-        readme = generate_readme(summary)
+        readme = generate_readme(summary)   
         return {"readme": readme}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
