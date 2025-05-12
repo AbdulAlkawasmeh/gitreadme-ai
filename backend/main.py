@@ -4,9 +4,13 @@ from pydantic import BaseModel
 import httpx
 from github_parser import clone_and_summarize_repo
 from readme_generator import generate_readme
+from dotenv import load_dotenv
 
-CLIENT_ID = "Ov23liAyw4i725ca1dts"
-CLIENT_SECRET = "a9e6e65a747ed8008783ecb9063479b731a50136"
+load_dotenv()
+
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+
 
 app = FastAPI()
 
@@ -20,7 +24,6 @@ app.add_middleware(
 
 class CodeRequest(BaseModel):
     code: str
-
  
 class GenerateReadmeRequest(BaseModel):
     github_url: str
