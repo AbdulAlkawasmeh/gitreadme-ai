@@ -17,4 +17,16 @@ def clone_and_summarize_repo(repo_url: str) -> str:
 
 
 
+def detect_stack(tmpdir):
+    files = os.listdir(tmpdir)
+    if 'package.json' in files:
+        return 'Node.js'
+    elif 'manage.py' in files:
+        return 'Django'
+    elif 'requirements.txt' in files:
+        return 'Python'
+    elif 'app.jsx' in files or 'App.jsx' in files:
+        return 'React'
+    return 'General'
+
 

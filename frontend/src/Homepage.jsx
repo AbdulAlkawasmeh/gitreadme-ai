@@ -63,7 +63,6 @@ export default function HomePage() {
       <div className="homepage-container">
       <h1 className="text-4xl font-bold mb-4">GitREADME Generator</h1>
 
-      {/* 💥 Typing animation here */}
       <div className="homepage-typing-text">
   <Typewriter
     words={['Tired of writing README files? 🤯', 'We have the solution for you... 🚀']}

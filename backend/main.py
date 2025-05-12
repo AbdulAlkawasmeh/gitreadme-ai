@@ -5,7 +5,7 @@ import httpx
 from github_parser import clone_and_summarize_repo
 from readme_generator import generate_readme
 from dotenv import load_dotenv
-
+import os
 load_dotenv()
 
 CLIENT_ID = os.getenv("CLIENT_ID")

@@ -5,6 +5,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 2rem;
+    text-align: center;
     min-height: 100vh;
     background: linear-gradient(to bottom right, black, #e5e7eb);
     padding: 6rem;
