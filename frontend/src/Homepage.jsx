@@ -1,4 +1,4 @@
-import './HomePage.css';
+import './Homepage.css';
 import { SignInButton } from '@clerk/clerk-react';
 import { useState } from 'react';
 import axios from 'axios';
