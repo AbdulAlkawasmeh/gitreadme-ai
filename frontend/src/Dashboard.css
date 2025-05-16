@@ -17,7 +17,7 @@
   /* Repos grid (2xN) */
   .repo-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);   /* 👈 forces 3 per row */
+    grid-template-columns: repeat(2, 1fr);   /* 👈 forces 3 per row */
     gap: 1.5rem;
     margin-bottom: 2rem;
   }
