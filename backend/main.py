@@ -69,7 +69,7 @@ async def generate_readme_endpoint(request: GenerateReadmeRequest):
     try:
         repo_url = request.github_url   
         summary = clone_and_summarize_repo(repo_url)
-        readme = generate_readme(summary)   
+        readme = readme = await generate_readme(summary)  
         return {"readme": readme}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
