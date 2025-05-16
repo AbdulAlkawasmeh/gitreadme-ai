@@ -9,7 +9,7 @@ def clone_and_summarize_repo(repo_url: str) -> str:
         for root, dirs, files in os.walk(tmpdir):
             for file in files:
                 path = os.path.join(root, file)
-                if file.endswith((".py", ".js", ".ts", ".md", ".json")):
+                if file.endswith((".py", ".html", ".css", ".js", ".ts", ".json", ".txt")):
                     with open(path, "r", encoding="utf-8", errors="ignore") as f:
                         content = f.read()
                         summary += f"\n\nFile: {file}\n{content[:500]}"
