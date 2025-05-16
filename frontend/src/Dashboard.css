@@ -13,16 +13,6 @@
     color: #000000;
   }
 
-  /* H
-  /* Repos grid (2xN) */
-  .repo-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);   /* 👈 forces 3 per row */
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  
-  /* Repo card */
   .repo-card {
     background-color: #f9f9f9;
     border: 2px solid white;
@@ -30,6 +20,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     text-align: center;
+    width: 100%;        /* Ensures it fills the grid column */
+    box-sizing: border-box;
   }
   
   /* Generated readmes grid (2xN) */
@@ -82,5 +74,24 @@
     text-align: left;
     font-size: 0.95rem;
     line-height: 1.5;
+  }
+  
+  .repo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 per row on desktop */
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media (max-width: 1024px) {
+    .repo-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .repo-grid {
+      grid-template-columns: 1fr; /* 1 per row on mobile */
+    }
   }
   
