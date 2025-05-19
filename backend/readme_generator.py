@@ -48,10 +48,10 @@ def generate_readme(summary_data: dict, tone: str = "Professional") -> str:
     {project_summary}
     """
 
-    response = client.chat.completions.create(
+    response = await client.chat.completions.create(
         model="openai/gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
     )
-
     return response.choices[0].message.content
+   
