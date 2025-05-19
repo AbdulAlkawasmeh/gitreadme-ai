@@ -61,7 +61,7 @@ export default function Dashboard() {
       const readmes = {};
       for (const repoName of selectedRepos) {
         const response = await axios.post(
-          "http://localhost:8000/generate-readme/",
+          "https://gitreadme-ai.onrender.com/generate-readme/",
           {
             github_url: `https://github.com/${user.externalAccounts.find(
               (acc) => acc.provider === "github"
