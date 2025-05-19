@@ -32,7 +32,7 @@ github_access_token = None
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return 
 
 @app.post("/github/callback")
 async def github_callback(data: CodeRequest):
@@ -63,13 +63,17 @@ async def get_github_repos():
             headers={"Authorization": f"Bearer {github_access_token}"}
         )
         return {"repos": repos_response.json()}
-
 @app.post("/generate-readme/")
 async def generate_readme_endpoint(request: GenerateReadmeRequest):
     try:
-        repo_url = request.github_url   
+        
+        repo_url = request.github_url
+        print(f"Cloning and summarizing: {repo_url}")
         summary = clone_and_summarize_repo(repo_url)
-        readme = readme = await generate_readme(summary)  
+        print(f"Summary complete. Generating README...")
+        readme = generate_readme(summary)
+        print(f"README generated successfully.")
         return {"readme": readme}
     except Exception as e:
+        print(f"ERROR: {e}")
         raise HTTPException(status_code=500, detail=str(e))

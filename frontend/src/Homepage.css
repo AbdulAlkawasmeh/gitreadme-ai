@@ -34,7 +34,7 @@
   /* Ensure input fields & buttons are full width on small screens */
   .homepage-card input,
   .homepage-card button {
-    width: 100%;
+    width: 90%;
   }
   
   /* Responsive padding for container */

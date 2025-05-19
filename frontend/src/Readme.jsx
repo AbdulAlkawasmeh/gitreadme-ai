@@ -7,7 +7,7 @@ export default function ReadmePage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold mb-6">📄 Generated READMEs</h1>
+      <h1 className="text-3xl font-bold mb-6">Generated READMEs</h1>
       {readmes.length > 0 ? (
         readmes.map((readme) => (
           <div key={readme.repo} className="mb-8 border p-4 rounded bg-gray-50 w-full max-w-4xl">

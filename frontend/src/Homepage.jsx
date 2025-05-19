@@ -1,3 +1,4 @@
+// src/pages/HomePage.jsx
 import './Homepage.css';
 import { SignInButton } from '@clerk/clerk-react';
 import { useState } from 'react';
@@ -10,7 +11,7 @@ export default function HomePage() {
   const [readme, setReadme] = useState('');
   const [loadingGithub, setLoadingGithub] = useState(false);
   const [loadingCustom, setLoadingCustom] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [previewContent, setPreviewContent] = useState(null);
 
   const handleGenerateCustom = async () => {
     if (!repoUrl) {
@@ -21,7 +22,7 @@ export default function HomePage() {
     setLoadingCustom(true);
     try {
       const response = await axios.post(
-        'https://gitreadme-ai.onrender.com/generate-readme/',
+        'http://localhost:8000/generate-readme/',
         { github_url: repoUrl },
         { headers: { 'Content-Type': 'application/json' } }
       );
@@ -43,7 +44,7 @@ export default function HomePage() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(readme).then(() => {
-      alert("README copied to clipboard ✅");
+      alert("copied to clipboard");
     });
   };
 
@@ -58,28 +59,22 @@ export default function HomePage() {
   };
 
   return (
-    
-
-      <div className="homepage-container">
+    <div className="homepage-container">
       <h1 className="text-4xl font-bold mb-4">GitREADME Generator</h1>
 
       <div className="homepage-typing-text">
-  <Typewriter
-    words={['Tired of writing README files? 🤯', 'We have the solution for you... 🚀']}
-    loop={false}
-    cursor
-    cursorStyle="|"
-    typeSpeed={70}
-    deleteSpeed={50}
-    delaySpeed={1500}
-  />
-</div>
-
-
-
+        <Typewriter
+          words={['Tired of writing README files? 🤯', 'We have the solution for you... 🚀']}
+          loop={false}
+          cursor
+          cursorStyle="|"
+          typeSpeed={70}
+          deleteSpeed={50}
+          delaySpeed={1500}
+        />
+      </div>
 
       <div className="homepage-cards">
-        {/* Left card */}
         <div className="homepage-card">
           <h2 className="text-2xl font-semibold mb-4">Paste GitHub Repo URL</h2>
           <input
@@ -98,7 +93,6 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Right card */}
         <div className="homepage-card">
           <h2 className="text-2xl font-semibold mb-4">Login with GitHub/GitLab</h2>
           <SignInButton mode="modal">
@@ -111,39 +105,59 @@ export default function HomePage() {
           </SignInButton>
         </div>
       </div>
-{/* Result area */}
-{readme && (
-  <div id="custom-readme" className="homepage-readme">
-    <h2 className="text-2xl font-bold mb-6">📄 Generated README</h2>
 
-    {/* Buttons */}
-    <div className="flex gap-4 mb-4">
-      <button
-        onClick={handleCopy}
-        className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded"
-      >
-        📋 Copy
-      </button>
-      <button
-        onClick={handleDownload}
-        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-      >
-        💾 Download
-      </button>
-    </div>
+      {readme && (
+        <div id="custom-readme" className="homepage-readme">
+          <h2 className="text-2xl font-bold mb-6">Generated README</h2>
+          <div className="flex gap-4 mb-4">
+            <button
+              onClick={handleCopy}
+              className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded"
+            >
+              Copy
+            </button>
+            <button
+              onClick={handleDownload}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+            >
+              Download
+            </button>
+            <button
+              onClick={() => setPreviewContent(readme)}
+              className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded"
+            >
+              Preview
+            </button>
+          </div>
 
-    <div className="prose max-w-none">
-      <pre style={{
-        whiteSpace: 'pre-wrap',
-        wordWrap: 'break-word',
-        maxWidth: '100%',
-        overflowWrap: 'break-word'
-      }}>
-        {readme}
-      </pre>
-    </div>
-  </div>
+          <div className="prose max-w-none">
+            <pre style={{
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word',
+              maxWidth: '100%',
+              overflowWrap: 'break-word'
+            }}>
+              {readme}
+            </pre>
+          </div>
+        </div>
+      )}
 
+      {previewContent && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <button
+              onClick={() => setPreviewContent(null)}
+              className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
+            >
+              Close
+            </button>
+            <h2 className="text-xl font-bold mb-4">Preview</h2>
+            <div className="preview-content">
+              <ReactMarkdown>{previewContent}</ReactMarkdown>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

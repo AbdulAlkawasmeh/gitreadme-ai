@@ -61,7 +61,7 @@ export default function Dashboard() {
       const readmes = {};
       for (const repoName of selectedRepos) {
         const response = await axios.post(
-          "https://gitreadme-ai.onrender.com/generate-readme/",
+          "http://localhost:8000/generate-readme/",
           {
             github_url: `https://github.com/${user.externalAccounts.find(
               (acc) => acc.provider === "github"
@@ -76,7 +76,7 @@ export default function Dashboard() {
       setGeneratedReadmes(readmes);
     } catch (err) {
       console.error("Error generating READMEs:", err);
-      alert("❌ Failed to generate READMEs");
+      alert(" Failed to generate READMEs");
     } finally {
       setLoadingGenerate(false);
     }
@@ -84,7 +84,7 @@ export default function Dashboard() {
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      alert("README copied to clipboard ✅");
+      alert("copied to clipboard");
     });
   };
 
@@ -101,7 +101,7 @@ export default function Dashboard() {
   return (
     <div className="homepage-container">
       <UserButton afterSignOutUrl="/" />
-      <h1 className="text-3xl font-bold mb-6">Welcome to your Dashboard 👋</h1>
+      <h1 className="text-3xl font-bold mb-6">Welcome to your Dashboard</h1>
 
       {loadingRepos ? (
         <p>Loading repos...</p>
@@ -139,7 +139,7 @@ export default function Dashboard() {
 
           {Object.keys(generatedReadmes).length > 0 && (
             <>
-              <h2 className="text-2xl font-semibold mt-10 mb-6">📄 Generated READMEs</h2>
+              <h2 className="text-2xl font-semibold mt-10 mb-6">Generated READMEs</h2>
               <div className="readme-grid">
                 {Object.entries(generatedReadmes).map(([repoName, content]) => (
                   <div key={repoName} className="readme-card">
@@ -150,19 +150,19 @@ export default function Dashboard() {
                           onClick={() => handleCopy(content)}
                           className="text-sm bg-gray-300 px-2 py-1 rounded hover:bg-gray-400"
                         >
-                          📋 Copy
+                          Copy
                         </button>
                         <button
                           onClick={() => handleDownload(content, repoName)}
                           className="text-sm bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
                         >
-                          💾 Download
+                          Download
                         </button>
                         <button
                           onClick={() => setPreviewContent(content)}
                           className="text-sm bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
                         >
-                          👁️ Preview
+                          Preview
                         </button>
                       </div>
                     </div>
@@ -192,9 +192,9 @@ export default function Dashboard() {
                   onClick={() => setPreviewContent(null)}
                   className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
                 >
-                  ❌ Close
+                  Close
                 </button>
-                <h2 className="text-xl font-bold mb-4">👁️ Preview</h2>
+                <h2 className="text-xl font-bold mb-4">Preview</h2>
                 <div className="preview-content">
                   <ReactMarkdown>{previewContent}</ReactMarkdown>
                 </div>
