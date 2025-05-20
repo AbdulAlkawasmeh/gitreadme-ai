@@ -16,7 +16,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://gitreadme-ai1.onrender.com/genera"],
+    allow_origins=["https://gitreadme-ai-1.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -63,7 +63,7 @@ async def get_github_repos():
             headers={"Authorization": f"Bearer {github_access_token}"}
         )
         return {"repos": repos_response.json()}
-        
+
 @app.post("/generate-readme/")
 async def generate_readme_endpoint(request: GenerateReadmeRequest):
     try:
