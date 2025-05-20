@@ -52,6 +52,7 @@ async def generate_readme(summary_data: dict, tone: str = "Professional") -> str
         model="openai/gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
+        max_tokens=2000,
     )
     return response.choices[0].message.content
    
