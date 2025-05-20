@@ -71,7 +71,7 @@ async def generate_readme_endpoint(request: GenerateReadmeRequest):
         print(f"Cloning and summarizing: {repo_url}")
         summary = clone_and_summarize_repo(repo_url)
         print(f"Summary complete. Generating README...")
-        readme = await generate_readme(summary)
+        readme = generate_readme(summary)
         print(f"README generated successfully.")
         return {"readme": readme}
     except Exception as e:

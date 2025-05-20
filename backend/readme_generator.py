@@ -8,7 +8,7 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY")
 )
-async def generate_readme(summary_data: dict, tone: str = "Professional") -> str:
+def generate_readme(summary_data: dict, tone: str = "Professional") -> str:
     project_summary = summary_data.get("summary", "")
     project_stack = summary_data.get("project_stack", "General")
 
@@ -48,7 +48,7 @@ async def generate_readme(summary_data: dict, tone: str = "Professional") -> str
     {project_summary}
     """
 
-    response = await client.chat.completions.create(
+    response = client.chat.completions.create(
         model="openai/gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
