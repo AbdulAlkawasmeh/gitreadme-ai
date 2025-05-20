@@ -8,7 +8,7 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY")
 )
-def generate_readme(summary_data: dict, tone: str = "Professional") -> str:
+async def generate_readme(summary_data: dict, tone: str = "Professional") -> str:
     project_summary = summary_data.get("summary", "")
     project_stack = summary_data.get("project_stack", "General")
 

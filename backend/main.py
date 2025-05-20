@@ -16,7 +16,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://gitreadme-ai1.onrender.com"],
+    allow_origins=["https://gitreadme-ai1.onrender.com/genera"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -63,15 +63,15 @@ async def get_github_repos():
             headers={"Authorization": f"Bearer {github_access_token}"}
         )
         return {"repos": repos_response.json()}
+        
 @app.post("/generate-readme/")
 async def generate_readme_endpoint(request: GenerateReadmeRequest):
     try:
-        
         repo_url = request.github_url
         print(f"Cloning and summarizing: {repo_url}")
         summary = clone_and_summarize_repo(repo_url)
         print(f"Summary complete. Generating README...")
-        readme = generate_readme(summary)
+        readme = await generate_readme(summary)
         print(f"README generated successfully.")
         return {"readme": readme}
     except Exception as e:
