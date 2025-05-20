@@ -22,7 +22,7 @@ export default function HomePage() {
     setLoadingCustom(true);
     try {
       const response = await axios.post(
-        'http://localhost:8000/generate-readme/',
+        'https://gitreadme-ai.onrender.com/generate-readme/',
         { github_url: repoUrl },
         { headers: { 'Content-Type': 'application/json' } }
       );
