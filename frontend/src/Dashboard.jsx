@@ -99,102 +99,172 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="homepage-container">
-      <UserButton afterSignOutUrl="/" />
-      <h1 className="text-3xl font-bold mb-6">Welcome to your Dashboard</h1>
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <div className="header-content">
+          <h1 className="dashboard-title">
+            Welcome to your Dashboard
+            <span className="dashboard-emoji">🚀</span>
+          </h1>
+          <p className="dashboard-subtitle">
+            Select repositories to generate professional README files
+          </p>
+        </div>
+        <div className="user-section">
+          <UserButton afterSignOutUrl="/" />
+        </div>
+      </div>
 
       {loadingRepos ? (
-        <p>Loading repos...</p>
+        <div className="loading-section">
+          <div className="spinner-large"></div>
+          <p className="loading-text">Loading your repositories...</p>
+        </div>
       ) : (
         <>
-          <h2 className="text-xl mb-4">Select your GitHub Repos:</h2>
-          <ul className="repo-grid">
-            {repos.map((repo) => (
-              <li key={repo.id} className="repo-card">
-                <input
-                  type="checkbox"
-                  checked={selectedRepos.includes(repo.name)}
-                  onChange={() => toggleSelectRepo(repo.name)}
-                  className="mr-2"
-                />
-                <a
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  {repo.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="repos-section">
+            <h2 className="section-title">
+              <span className="section-icon">📁</span>
+              Select Repositories
+            </h2>
+            <p className="section-subtitle">
+              Choose which repositories you'd like to generate READMEs for
+            </p>
+            
+            <div className="repo-grid">
+              {repos.map((repo) => (
+                <div key={repo.id} className={`repo-card ${selectedRepos.includes(repo.name) ? 'selected' : ''}`}>
+                  <div className="repo-checkbox">
+                    <input
+                      type="checkbox"
+                      id={`repo-${repo.id}`}
+                      checked={selectedRepos.includes(repo.name)}
+                      onChange={() => toggleSelectRepo(repo.name)}
+                      className="repo-checkbox-input"
+                    />
+                    <label htmlFor={`repo-${repo.id}`} className="repo-checkbox-label"></label>
+                  </div>
+                  
+                  <div className="repo-content">
+                    <div className="repo-header">
+                      <h3 className="repo-name">{repo.name}</h3>
+                      <span className="repo-visibility">{repo.private ? '🔒' : '🌐'}</span>
+                    </div>
+                    
+                    {repo.description && (
+                      <p className="repo-description">{repo.description}</p>
+                    )}
+                    
+                    <div className="repo-meta">
+                      <span className="repo-language">{repo.language || 'No language'}</span>
+                      <span className="repo-stars">⭐ {repo.stargazers_count}</span>
+                    </div>
+                    
+                    <a
+                      href={repo.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="repo-link"
+                    >
+                      View on GitHub →
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-          <button
-            onClick={handleGenerateReadmes}
-            disabled={loadingGenerate}
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 mt-4"
-          >
-            {loadingGenerate ? "Generating..." : "Generate READMEs"}
-          </button>
+            <div className="action-section">
+              <button
+                onClick={handleGenerateReadmes}
+                disabled={loadingGenerate || selectedRepos.length === 0}
+                className={`generate-button ${loadingGenerate ? 'loading' : ''}`}
+              >
+                {loadingGenerate ? (
+                  <>
+                    <div className="spinner"></div>
+                    Generating {selectedRepos.length} README{selectedRepos.length !== 1 ? 's' : ''}...
+                  </>
+                ) : (
+                  <>
+                    ✨ Generate {selectedRepos.length} README{selectedRepos.length !== 1 ? 's' : ''}
+                  </>
+                )}
+              </button>
+              
+              {selectedRepos.length > 0 && (
+                <p className="selection-count">
+                  {selectedRepos.length} repository{selectedRepos.length !== 1 ? 'ies' : 'y'} selected
+                </p>
+              )}
+            </div>
+          </div>
 
           {Object.keys(generatedReadmes).length > 0 && (
-            <>
-              <h2 className="text-2xl font-semibold mt-10 mb-6">Generated READMEs</h2>
+            <div className="results-section animate-fade-in">
+              <div className="results-header">
+                <h2 className="results-title">
+                  <span className="results-icon">✨</span>
+                  Generated READMEs
+                </h2>
+                <p className="results-subtitle">
+                  Your AI-generated README files are ready!
+                </p>
+              </div>
+              
               <div className="readme-grid">
                 {Object.entries(generatedReadmes).map(([repoName, content]) => (
-                  <div key={repoName} className="readme-card">
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="font-bold">{repoName}</h3>
-                      <div className="space-x-2">
+                  <div key={repoName} className="readme-card card">
+                    <div className="readme-card-header">
+                      <div className="readme-title-section">
+                        <h3 className="readme-card-title">{repoName}</h3>
+                        <span className="readme-status">✅ Generated</span>
+                      </div>
+                      
+                      <div className="readme-actions">
                         <button
                           onClick={() => handleCopy(content)}
-                          className="text-sm bg-gray-300 px-2 py-1 rounded hover:bg-gray-400"
+                          className="btn-secondary btn-sm"
                         >
-                          Copy
+                          📋 Copy
                         </button>
                         <button
                           onClick={() => handleDownload(content, repoName)}
-                          className="text-sm bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                          className="btn-primary btn-sm"
                         >
-                          Download
+                          💾 Download
                         </button>
                         <button
                           onClick={() => setPreviewContent(content)}
-                          className="text-sm bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
+                          className="btn-purple btn-sm"
                         >
-                          Preview
+                          👁️ Preview
                         </button>
                       </div>
                     </div>
-                    <pre style={{
-                      whiteSpace: "pre-wrap",
-                      wordBreak: "break-word",
-                      maxHeight: "400px",
-                      overflowY: "auto",
-                      padding: "1rem",
-                      backgroundColor: "#fff",
-                      border: "1px solid #ddd",
-                      borderRadius: "8px",
-                      fontSize: "0.875rem"
-                    }}>
-                      {content}
-                    </pre>
+                    
+                    <div className="readme-card-content">
+                      <pre className="readme-preview">
+                        {content}
+                      </pre>
+                    </div>
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           )}
 
           {previewContent && (
             <div className="modal-overlay">
               <div className="modal">
-                <button
-                  onClick={() => setPreviewContent(null)}
-                  className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  Close
-                </button>
-                <h2 className="text-xl font-bold mb-4">Preview</h2>
+                <div className="modal-header">
+                  <h2 className="modal-title">📖 README Preview</h2>
+                  <button
+                    onClick={() => setPreviewContent(null)}
+                    className="btn-danger modal-close"
+                  >
+                    ✕ Close
+                  </button>
+                </div>
                 <div className="preview-content">
                   <ReactMarkdown>{previewContent}</ReactMarkdown>
                 </div>

@@ -1,75 +1,337 @@
 /* HomePage.css */
 
 .homepage-container {
-    display: flex;
+  min-height: 100vh;
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+  margin-bottom: var(--space-16);
+  max-width: 800px;
+  width: 100%;
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero-title {
+  font-size: var(--font-size-5xl);
+  font-weight: 800;
+  color: var(--secondary-900);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.hero-emoji {
+  font-size: var(--font-size-4xl);
+  animation: pulse 2s infinite;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--secondary-600);
+  margin-bottom: var(--space-8);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.homepage-typing-text {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--primary-600);
+  margin-bottom: var(--space-8);
+  text-align: center;
+  word-wrap: break-word;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cards Layout */
+.homepage-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--space-8);
+  max-width: 1000px;
+  width: 100%;
+  margin-bottom: var(--space-16);
+}
+
+.homepage-card {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.homepage-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-500), var(--purple-500));
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.homepage-card:hover::before {
+  opacity: 1;
+}
+
+.card-icon {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--space-4);
+  display: block;
+}
+
+.card-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--secondary-900);
+  margin-bottom: var(--space-3);
+}
+
+.card-description {
+  color: var(--secondary-600);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+  font-size: var(--font-size-base);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.repo-input {
+  font-size: var(--font-size-base);
+  padding: var(--space-4);
+  border: 2px solid var(--secondary-200);
+  border-radius: var(--radius-lg);
+  background: white;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.repo-input:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+  transform: translateY(-1px);
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* README Section */
+.homepage-readme {
+  max-width: 1000px;
+  width: 100%;
+  margin-top: var(--space-8);
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--secondary-200);
+  overflow: hidden;
+}
+
+.readme-header {
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
+  padding: var(--space-8);
+  text-align: center;
+  border-bottom: 1px solid var(--secondary-200);
+}
+
+.readme-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--secondary-900);
+  margin-bottom: var(--space-2);
+}
+
+.readme-subtitle {
+  color: var(--secondary-600);
+  font-size: var(--font-size-lg);
+}
+
+.action-buttons {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  justify-content: center;
+  flex-wrap: wrap;
+  background: var(--secondary-50);
+  border-bottom: 1px solid var(--secondary-200);
+}
+
+.readme-content {
+  padding: var(--space-8);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.readme-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--secondary-800);
+  background: var(--secondary-50);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--secondary-200);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+  background: white;
+  border-radius: var(--radius-2xl);
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-6);
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
+  border-bottom: 1px solid var(--secondary-200);
+}
+
+.modal-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--secondary-900);
+  margin: 0;
+}
+
+.modal-close {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+}
+
+.preview-content {
+  padding: var(--space-8);
+  max-height: 60vh;
+  overflow-y: auto;
+  text-align: left;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .homepage-container {
+    padding: var(--space-4);
+  }
+  
+  .hero-title {
+    font-size: var(--font-size-4xl);
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--font-size-lg);
+  }
+  
+  .homepage-typing-text {
+    font-size: var(--font-size-xl);
+  }
+  
+  .homepage-cards {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  .action-buttons {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 2rem;
+  }
+  
+  .action-buttons button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .modal {
+    width: 95%;
+    margin: var(--space-4);
+  }
+  
+  .modal-header {
+    flex-direction: column;
+    gap: var(--space-4);
     text-align: center;
-    min-height: 100vh;
-    background: linear-gradient(to bottom right, black, #e5e7eb);
-    padding: 6rem;
   }
-  /* Homepage.css */
+}
 
-
-/* Make cards stack vertically on small screens */
-.homepage-cards {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: var(--font-size-3xl);
   }
   
-  .homepage-card {
-    flex: 1 1 300px;
-    max-width: 400px;
-    background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Ensure input fields & buttons are full width on small screens */
-  .homepage-card input,
-  .homepage-card button {
-    width: 90%;
-  }
-  
-  /* Responsive padding for container */
-  .homepage-container {
-    padding: 1rem;
-  }
-  
-  /* Make typing text big but still shrink nicely */
   .homepage-typing-text {
-    font-size: 2rem;
-    font-weight: 600;
-    color: black;
-    margin-bottom: 2rem;
-    text-align: center;
-    word-wrap: break-word;
+    font-size: var(--font-size-lg);
   }
   
-  /* Result readme area */
-  .homepage-readme {
-    max-width: 90%;
-    margin-top: 2rem;
-    background-color: #f9fafb;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    overflow-x: auto;
+  .card-icon {
+    font-size: var(--font-size-3xl);
   }
   
-  /* On very small devices shrink headings slightly */
-  @media (max-width: 480px) {
-    .homepage-typing-text {
-      font-size: 1.5rem;
-    }
-  
-    .homepage-card {
-      padding: 1rem;
-    }
+  .readme-text {
+    font-size: var(--font-size-xs);
   }
+}
   

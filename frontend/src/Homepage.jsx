@@ -60,83 +60,122 @@ export default function HomePage() {
 
   return (
     <div className="homepage-container">
-      <h1 className="text-4xl font-bold mb-4">GitREADME Generator</h1>
-
-      <div className="homepage-typing-text">
-        <Typewriter
-          words={['Tired of writing README files? 🤯', 'We have the solution for you... 🚀']}
-          loop={false}
-          cursor
-          cursorStyle="|"
-          typeSpeed={70}
-          deleteSpeed={50}
-          delaySpeed={1500}
-        />
+      {/* Hero Section */}
+      <div className="hero-section animate-fade-in">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            GitREADME Generator
+            <span className="hero-emoji">📝</span>
+          </h1>
+          <p className="hero-subtitle">
+            Transform your GitHub repositories into professional README files with AI
+          </p>
+          
+          <div className="homepage-typing-text">
+            <Typewriter
+              words={['Tired of writing README files? 🤯', 'We have the solution for you... 🚀']}
+              loop={false}
+              cursor
+              cursorStyle="|"
+              typeSpeed={70}
+              deleteSpeed={50}
+              delaySpeed={1500}
+            />
+          </div>
+        </div>
       </div>
 
+      {/* Action Cards */}
       <div className="homepage-cards">
-        <div className="homepage-card">
-          <h2 className="text-2xl font-semibold mb-4">Paste GitHub Repo URL</h2>
-          <input
-            type="text"
-            placeholder="https://github.com/username/repo"
-            value={repoUrl}
-            onChange={(e) => setRepoUrl(e.target.value)}
-            className="w-full border rounded px-4 py-2 mb-4"
-          />
-          <button
-            onClick={handleGenerateCustom}
-            disabled={loadingCustom}
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 w-full"
-          >
-            {loadingCustom ? "Generating..." : "Generate README"}
-          </button>
+        <div className="homepage-card card animate-fade-in">
+          <div className="card-icon">🔗</div>
+          <h2 className="card-title">Quick Generate</h2>
+          <p className="card-description">
+            Paste any GitHub repository URL and get an instant README
+          </p>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="https://github.com/username/repo"
+              value={repoUrl}
+              onChange={(e) => setRepoUrl(e.target.value)}
+              className="repo-input"
+            />
+            <button
+              onClick={handleGenerateCustom}
+              disabled={loadingCustom}
+              className={`btn-success w-full ${loadingCustom ? 'animate-pulse' : ''}`}
+            >
+              {loadingCustom ? (
+                <>
+                  <div className="spinner"></div>
+                  Generating...
+                </>
+              ) : (
+                <>
+                  ✨ Generate README
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
-        <div className="homepage-card">
-          <h2 className="text-2xl font-semibold mb-4">Login with GitHub/GitLab</h2>
+        <div className="homepage-card card animate-fade-in">
+          <div className="card-icon">👤</div>
+          <h2 className="card-title">Bulk Generate</h2>
+          <p className="card-description">
+            Login with GitHub to generate READMEs for multiple repositories
+          </p>
           <SignInButton mode="modal">
             <button
               onClick={handleGithubLoginClick}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 w-full"
+              className={`btn-primary w-full ${loadingGithub ? 'animate-pulse' : ''}`}
             >
-              {loadingGithub ? "Redirecting..." : "Login & Fetch Repos"}
+              {loadingGithub ? (
+                <>
+                  <div className="spinner"></div>
+                  Redirecting...
+                </>
+              ) : (
+                <>
+                  🚀 Login & Fetch Repos
+                </>
+              )}
             </button>
           </SignInButton>
         </div>
       </div>
 
       {readme && (
-        <div id="custom-readme" className="homepage-readme">
-          <h2 className="text-2xl font-bold mb-6">Generated README</h2>
-          <div className="flex gap-4 mb-4">
+        <div id="custom-readme" className="homepage-readme animate-fade-in">
+          <div className="readme-header">
+            <h2 className="readme-title">✨ Generated README</h2>
+            <p className="readme-subtitle">Your AI-generated README is ready!</p>
+          </div>
+          
+          <div className="action-buttons">
             <button
               onClick={handleCopy}
-              className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded"
+              className="btn-secondary"
             >
-              Copy
+              📋 Copy
             </button>
             <button
               onClick={handleDownload}
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+              className="btn-success"
             >
-              Download
+              💾 Download
             </button>
             <button
               onClick={() => setPreviewContent(readme)}
-              className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded"
+              className="btn-purple"
             >
-              Preview
+              👁️ Preview
             </button>
           </div>
 
-          <div className="prose max-w-none">
-            <pre style={{
-              whiteSpace: 'pre-wrap',
-              wordWrap: 'break-word',
-              maxWidth: '100%',
-              overflowWrap: 'break-word'
-            }}>
+          <div className="readme-content">
+            <pre className="readme-text">
               {readme}
             </pre>
           </div>
@@ -146,13 +185,15 @@ export default function HomePage() {
       {previewContent && (
         <div className="modal-overlay">
           <div className="modal">
-            <button
-              onClick={() => setPreviewContent(null)}
-              className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
-            >
-              Close
-            </button>
-            <h2 className="text-xl font-bold mb-4">Preview</h2>
+            <div className="modal-header">
+              <h2 className="modal-title">📖 README Preview</h2>
+              <button
+                onClick={() => setPreviewContent(null)}
+                className="btn-danger modal-close"
+              >
+                ✕ Close
+              </button>
+            </div>
             <div className="preview-content">
               <ReactMarkdown>{previewContent}</ReactMarkdown>
             </div>
